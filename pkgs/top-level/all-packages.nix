@@ -21282,7 +21282,7 @@ with pkgs;
         then libcCross
         else stdenv.cc.libc)
     else if stdenv.hostPlatform.isDarwin
-      then libiconv-darwin
+      then darwin.libiconv
     else libiconvReal;
 
   libcIconv = libc: let
