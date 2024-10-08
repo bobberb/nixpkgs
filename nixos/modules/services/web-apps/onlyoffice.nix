@@ -34,6 +34,12 @@ in
       description = "Port the OnlyOffice DocumentServer should listens on.";
     };
 
+    allowLocalConnections = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "If true, allows clients with LAN-range IPs to access your instance.";
+    };
+
     examplePort = mkOption {
       type = types.port;
       default = null;
@@ -223,6 +229,12 @@ in
             mkdir -p /run/onlyoffice/config/ /var/lib/onlyoffice/documentserver/sdkjs/{slide/themes,common}/ /var/lib/onlyoffice/documentserver/{fonts,server/FileConverter/bin}/
             cp -r ${cfg.package}/etc/onlyoffice/documentserver/* /run/onlyoffice/config/
             chmod u+w /run/onlyoffice/config/default.json
+
+            #Allow LAN-range IPs if set true
+            ${lib.optionalString (cfg.allowLocalConnections) ''
+            sed -i 's/"allowPrivateIPAddress": false/"allowPrivateIPAddress": true/' /run/onlyoffice/config/default.json
+            sed -i 's/"allowMetaIPAddress": false/"allowMetaIPAddress": true/' /run/onlyoffice/config/default.json
+            ''}
 
             # Allow members of the onlyoffice group to serve files under /var/lib/onlyoffice/documentserver/App_Data
             chmod g+x /var/lib/onlyoffice/documentserver
