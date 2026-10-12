@@ -37,14 +37,14 @@ rustPlatform.buildRustPackage (finalAttrs: {
   inherit buildNoDefaultFeatures;
 
   pname = "ortie";
-  version = "2.1.0";
-  cargoHash = "sha256-ZAW+Coyv1DVmF2HWr7CmFMtQT9hNaS+1koWoZCJ+Wsc=";
+  version = "2.3.0";
+  cargoHash = "sha256-UBkQiZCuyW1DWoAmv3476gKBqNKW27CVyoBScGQFR1Q=";
 
   src = fetchFromGitHub {
     owner = "pimalaya";
     repo = "ortie";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-5KRXPIDYBfF/2fNnrJur8WdfLYvgtJWlTWA7YD8yYWg=";
+    hash = "sha256-1bnhWtL55k5uC5n9BoPNRPQq/l4Z54QLyqUhAjyakT4=";
   };
 
   env = {
@@ -83,7 +83,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     in
     ''
       mkdir -p $out/share/{completions,man}
-      ${exe} manuals "$out"/share/man
+      ${exe} manuals -d "$out"/share/man
       ${exe} completions -d "$out"/share/completions bash elvish fish powershell zsh
     ''
     + lib.optionalString installManPages ''
